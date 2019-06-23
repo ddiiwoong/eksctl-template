@@ -1,0 +1,36 @@
+--- 
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: devops
+  region: ap-northeast-2
+
+vpc:
+  id: "vpc-0b763f3fd85f48f14"  # (optional, must match VPC ID used for each subnet below)
+  cidr: "10.10.0.0/16"       # (optional, must match CIDR used by the given VPC)
+  subnets:
+    # must provide 'private' and/or 'public' subnets by availibility zone as shown
+    private:
+      ap-northeast-2a:
+        id: "subnet-0209dabdbdd5cc6e8"
+        cidr: "10.10.11.0/24" # (optional, must match CIDR used by the given subnet)
+
+      ap-northeast-2b:
+        id: "subnet-034bd1d34269beb62"
+        cidr: "10.10.12.0/24"  # (optional, must match CIDR used by the given subnet)
+
+    public:
+      ap-northeast-2a:
+        id: "subnet-0dc5ae3a8d07c2dd9"
+        cidr: "10.10.1.0/24"
+
+      ap-northeast-2b:
+        id: "subnet-0808ed6a80bba8031"
+        cidr: "10.10.2.0/24"
+
+nodeGroups:
+  - name: ng-eks-1
+    instanceType: m5.xlarge
+    desiredCapacity: 2
+    privateNetworking: true # if only 'Private' subnets are given, this must be enabled
